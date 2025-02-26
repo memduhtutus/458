@@ -1,0 +1,17 @@
+# Ignore Python virtual environments
+venv/
+.env
+
+# Byte-compiled / cached files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Flask session and logs
+flask_session/
+instance/
+*.log
+
+# VS Code workspace settings (optional)
+.vscode/
