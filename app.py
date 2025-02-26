@@ -17,8 +17,8 @@ Session(app)
 oauth = OAuth(app)
 
 # ✅ Google OAuth Configuration (Fixed)
-app.config['GOOGLE_CLIENT_ID'] = "GOOGLE_CLIENT_ID"
-app.config['GOOGLE_CLIENT_SECRET'] = "GOOGLE_CLIENT_SECRET"
+app.config['GOOGLE_CLIENT_ID'] = "395889624025-auvbub026chb33h5sqmooi3plmmpcs9o.apps.googleusercontent.com"
+app.config['GOOGLE_CLIENT_SECRET'] = "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"
 google = oauth.register(
     name='google',  
     client_id=app.config['GOOGLE_CLIENT_ID'],
