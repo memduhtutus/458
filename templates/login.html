@@ -16,17 +16,12 @@
         <button type="submit">Login</button>
     </form>
     <br>
-    <button onclick="loginWithGoogle()">Login with Google</button>
-    <button onclick="loginWithFacebook()">Login with Facebook</button>
 
-    <script>
-        function loginWithGoogle() {
-            alert("Google login not implemented.");
-        }
-        
-        function loginWithFacebook() {
-            alert("Facebook login not implemented.");
-        }
-    </script>
+    <!-- Google Login -->
+    <a href="{{ url_for('login_google') }}">
+        <button>Login with Google</button>
+    </a>
+
+    
 </body>
 </html>
