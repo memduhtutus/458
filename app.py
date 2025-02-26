@@ -64,11 +64,19 @@ def google_auth():
 
 @app.route('/success')
 def success():
-    """Displays success message after login"""
+    """Displays success message after login with a Logout button"""
     user = session.get('user')
     if not user:
         return redirect(url_for('login'))
-    return f"<h2>Login Successful</h2><p>Welcome, {user.get('email', 'Guest')}!</p>"
+    
+    return f"""
+        <h2>Login Successful</h2>
+        <p>Welcome, {user.get('email', 'Guest')}!</p>
+        <br>
+        <a href="{url_for('logout')}">
+            <button style="padding: 10px; font-size: 16px; cursor: pointer;">Logout</button>
+        </a>
+    """
 
 @app.route('/logout')
 def logout():
