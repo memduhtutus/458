@@ -167,7 +167,7 @@ try:
 
 
     # ----------------------------------------------------------------------------
-    # Test Case 5: Google OAuth Login (Enter Google credentials & click "Continue")
+    # Test Case 5: Google OAuth Login (with conditional extra verification)
     # ----------------------------------------------------------------------------
     print("\n🔹 Test Case 5: Google OAuth Login")
     driver.get("http://127.0.0.1:5000/")
@@ -178,7 +178,6 @@ try:
     google_login_button.click()
     time.sleep(3)
 
-    # Attempt to fill out Google login form with given credentials
     try:
         # 1) Enter the email
         google_email_input = driver.find_element(By.ID, "identifierId")
@@ -194,14 +193,37 @@ try:
         password_next_button.click()
         time.sleep(3)
 
-        # 3) Click "Continue" on the Google OAuth consent screen
-        #    (Adjust the XPath if Google changes the button markup)
-        continue_button = driver.find_element(By.XPATH, "//button[.//span[text()='Continue']]")
-        continue_button.click()
-        time.sleep(5)
+        # 3) Check if the "Verify it's you" screen with "Confirm your recovery email" is shown
+        #    If so, handle it; otherwise, go straight to "Continue".
+        try:
+            # Attempt to find and click "Confirm your recovery email"
+            confirm_recovery_option = driver.find_element(By.XPATH, "//div[contains(text(), 'Confirm your recovery email')]")
+            confirm_recovery_option.click()
+            time.sleep(3)
 
-        # After successful login, Google should redirect back to your Flask app
-        # Check for "Login Successful" or confirm the current URL
+            # Enter the recovery email
+            recovery_input = driver.find_element(By.XPATH, "//input[@type='email' or @type='text']")
+            recovery_input.send_keys("at1llaes22@gmail.com")
+            
+            # Click the "Next" button after entering the recovery email
+            # (XPath might differ if Google changes the button structure)
+            next_btn_after_recovery = driver.find_element(By.XPATH, "//span[text()='Next']/..")
+            next_btn_after_recovery.click()
+            time.sleep(3)
+        except:
+            # If we didn't find the "Confirm your recovery email" option,
+            # we simply proceed with the "Continue" button below.
+            pass
+
+        # 4) Finally, click "Continue" on the OAuth consent screen (if present)
+        try:
+            continue_button = driver.find_element(By.XPATH, "//button[.//span[text()='Continue']]")
+            continue_button.click()
+            time.sleep(5)
+        except:
+            print("   ❗ 'Continue' button not found. Possibly already redirected or different flow.")
+
+        # 5) Check if we landed back on our Flask app with "Login Successful"
         if "Login Successful" in driver.page_source:
             print("✅ Google login test PASSED (success page reached).")
         else:
@@ -210,6 +232,7 @@ try:
 
     except Exception as e:
         print(f"❌ Google login test FAILED (could not complete sign-in). Error: {e}")
+
 
 
 finally:
