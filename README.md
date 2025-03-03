@@ -4,7 +4,7 @@ This is a simple Flask-based web application that supports manual login and Goog
 
 ---
 
-## 🛠️ Features
+## Features
 
 1. **Manual Login:** Supports login with email or phone number.
 2. **Google OAuth:** Login using Google authentication.
@@ -13,7 +13,7 @@ This is a simple Flask-based web application that supports manual login and Goog
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the repository
 
@@ -36,4 +36,4 @@ python testcase.py
 
 ### To run testcase.py
 
-you may need to edit the webdriver. It is Chrome by default.
+You may need to edit the webdriver. It is Chrome by default.
