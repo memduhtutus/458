@@ -3,13 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
-# ==== Safari WebDriver Setup (Default) ====
-driver = webdriver.Chrome()  # Default Chrome
+# ==== Chrome WebDriver Setup (Default) ====
+driver = webdriver.Chrome()
 
 """
-# ==== Chrome WebDriver Setup (Commented) ====
-# Uncomment the lines below if using Chrome, and comment out the Safari line above.
-
+# ==== Alternate Chrome WebDriver Setup (Uncomment if needed) ====
 # from selenium.webdriver.chrome.service import Service
 # from webdriver_manager.chrome import ChromeDriverManager
 # from selenium.webdriver.chrome.options import Options
@@ -90,7 +88,6 @@ try:
 
     login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
     time.sleep(1)
-    
     login_button.click()
     time.sleep(2)
 
@@ -150,7 +147,6 @@ try:
         password_input.send_keys("mypassword")
         login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
         time.sleep(1)
-        
         login_button.click()
         time.sleep(2)
 
@@ -165,27 +161,50 @@ try:
         print("❌ Logout test FAILED (not redirected to login page).")
 
     # ----------------------------------------------------------------------------
-    # Test Case 5: Google OAuth Login Button
+    # Test Case 5: Google OAuth Login (Enter Google credentials & click "Continue")
     # ----------------------------------------------------------------------------
-    print("\n🔹 Test Case 5: Google OAuth Login Button")
+    print("\n🔹 Test Case 5: Google OAuth Login")
     driver.get("http://127.0.0.1:5000/")
     time.sleep(1)
 
     google_login_button = driver.find_element(By.XPATH, "//a[contains(@href, 'login/google')]")
     time.sleep(1)
     google_login_button.click()
-    
     time.sleep(3)
 
-    # Verify redirection to Google (Check if the URL contains "accounts.google.com")
-    current_url = driver.current_url
-    if "accounts.google.com" in current_url:
-        print("✅ Google login button test PASSED (redirected to Google).")
-    else:
-        print(f"❌ Google login button test FAILED (no redirection). Current URL: {current_url}")
+    # Attempt to fill out Google login form with given credentials
+    try:
+        # 1) Enter the email
+        google_email_input = driver.find_element(By.ID, "identifierId")
+        google_email_input.send_keys("458testmail@gmail.com")
+        next_button = driver.find_element(By.ID, "identifierNext")
+        next_button.click()
+        time.sleep(3)
 
-except Exception as e:
-    print(f"\n❌ Test failed due to unexpected error: {e}")
+        # 2) Enter the password
+        google_password_input = driver.find_element(By.NAME, "Passwd")
+        google_password_input.send_keys("458testpassword")
+        password_next_button = driver.find_element(By.ID, "passwordNext")
+        password_next_button.click()
+        time.sleep(3)
+
+        # 3) Click "Continue" on the Google OAuth consent screen
+        #    (Adjust the XPath if Google changes the button markup)
+        continue_button = driver.find_element(By.XPATH, "//button[.//span[text()='Continue']]")
+        continue_button.click()
+        time.sleep(5)
+
+        # After successful login, Google should redirect back to your Flask app
+        # Check for "Login Successful" or confirm the current URL
+        if "Login Successful" in driver.page_source:
+            print("✅ Google login test PASSED (success page reached).")
+        else:
+            print("❌ Google login test FAILED (did not see success page).")
+            print("   Current URL:", driver.current_url)
+
+    except Exception as e:
+        print(f"❌ Google login test FAILED (could not complete sign-in). Error: {e}")
+
 
 finally:
     # ✅ Close the browser
