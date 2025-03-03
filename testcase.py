@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 
 # ==== Safari WebDriver Setup (Default) ====
-driver = webdriver.Safari()  # Safari does not need WebDriver Manager
+driver = webdriver.Chrome()  # Default Chrome
 
 """
 # ==== Chrome WebDriver Setup (Commented) ====
@@ -48,6 +48,7 @@ try:
 
         # Click login
         login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
+        time.sleep(1)
         login_button.click()
         time.sleep(2)
 
@@ -88,6 +89,8 @@ try:
     password_input.send_keys("password123")
 
     login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
+    time.sleep(1)
+    
     login_button.click()
     time.sleep(2)
 
@@ -116,6 +119,7 @@ try:
     password_input.send_keys("mypassword")
 
     login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
+    time.sleep(1)
     login_button.click()
     time.sleep(2)
 
@@ -145,6 +149,8 @@ try:
         password_input.clear()
         password_input.send_keys("mypassword")
         login_button = driver.find_element(By.XPATH, "//button[@type='submit']")
+        time.sleep(1)
+        
         login_button.click()
         time.sleep(2)
 
@@ -166,7 +172,9 @@ try:
     time.sleep(1)
 
     google_login_button = driver.find_element(By.XPATH, "//a[contains(@href, 'login/google')]")
+    time.sleep(1)
     google_login_button.click()
+    
     time.sleep(3)
 
     # Verify redirection to Google (Check if the URL contains "accounts.google.com")

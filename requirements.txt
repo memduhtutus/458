@@ -1,0 +1,5 @@
+Flask
+Flask-Session
+Authlib
+selenium
+webdriver-manager
