@@ -126,7 +126,7 @@ try:
     else:
         print("❌ Valid phone login test FAILED.")
 
-    # ----------------------------------------------------------------------------
+   # ----------------------------------------------------------------------------
     # Test Case 4: Logout After Successful Login
     # ----------------------------------------------------------------------------
     print("\n🔹 Test Case 4: Logout After Successful Login")
@@ -134,6 +134,7 @@ try:
     # We should still be logged in from Test Case 3. Let's confirm or just proceed:
     driver.get("http://127.0.0.1:5000/success")
     time.sleep(1)
+
     if "Login Successful" not in driver.page_source:
         print("   ❗ We are not on the success page; attempting to log in again.")
         # If for some reason not logged in, log in again quickly
@@ -150,15 +151,20 @@ try:
         login_button.click()
         time.sleep(2)
 
-    # Now do logout
-    driver.get("http://127.0.0.1:5000/logout")
-    time.sleep(2)
+    # Now do logout by clicking the Logout button
+    try:
+        logout_button = driver.find_element(By.XPATH, "//a[contains(@href, 'logout')]/button")
+        logout_button.click()
+        time.sleep(2)
 
-    # After logout, we expect to be redirected to the login page
-    if "Login Page" in driver.page_source or "Login" in driver.title:
-        print("✅ Logout test PASSED (redirected to login page).")
-    else:
-        print("❌ Logout test FAILED (not redirected to login page).")
+        # After logout, we expect to be redirected to the login page
+        if "Login Page" in driver.page_source or "Login" in driver.title:
+            print("✅ Logout test PASSED (redirected to login page).")
+        else:
+            print("❌ Logout test FAILED (not redirected to login page).")
+    except Exception as e:
+        print(f"❌ Could not click the Logout button. Error: {e}")
+
 
     # ----------------------------------------------------------------------------
     # Test Case 5: Google OAuth Login (Enter Google credentials & click "Continue")
