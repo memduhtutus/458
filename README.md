@@ -34,6 +34,6 @@ python app.py
 python testcase.py
 ```
 
-### To run testcase.py
+### 2. To run testcase.py
 
 You may need to edit the webdriver. It is Chrome by default.
